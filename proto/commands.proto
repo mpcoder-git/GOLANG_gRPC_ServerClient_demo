@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package commands;
+
+// Указываем, куда класть сгенерированный Go-код
+option go_package = "./pb"; 
+
+// Наш сервис (набор команд)
+service CommandService {
+  rpc GetTime (TimeRequest) returns (TimeResponse);
+  rpc Calculate (CalcRequest) returns (CalcResponse);
+  rpc ProcessText (TextRequest) returns (TextResponse);
+}
+
+// 1. Команда: Получить время
+message TimeRequest {} // Запрос пустой, ничего не передаем
+message TimeResponse {
+  string current_time = 1;
+}
+
+// 2. Команда: Калькулятор
+enum Operation {
+  ADD = 0;      // Сложение
+  MULTIPLY = 1; // Умножение
+}
+message CalcRequest {
+  double a = 1;
+  double b = 2;
+  Operation op = 3;
+}
+message CalcResponse {
+  double result = 1;
+}
+
+// 3. Команда: Обработка текста
+message TextRequest {
+  string text = 1;
+}
+message TextResponse {
+  string processed_text = 1;
+}
